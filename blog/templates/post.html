@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% block title %}{{ object.title }}{% endblock %}
+{% block main %}
+    <h2>{{ object.title }}{% if is_read == True %} (Прочитано){% endif %}</h2>
+    <!--Имя пользователя-->
+    {% if read_btn == True %}<p><a href="{% url 'post_read' pk=object.pk %}">Пометить пост прочитанным</a></p>{% endif %}
+    <p class="username">
+        {% if object.user.get_full_name %}:
+            <!--выводим реальные ФИО, разделенные пробелом-->
+            {{ object.user.get_full_name }}
+        {% else %}:
+            <!--иначе имя, под которым зарегистрирован пользователь-->
+            {{ object.user.get_username }}
+        {% endif %}
+    </p>
+    <!--содержимое статьи-->
+    <div>{{ object.content }}</div>
+    <!--Дата публикации статьи-->	
+    <p class="posted">{{ object.posted|date:"j.m.Y H.i.s" }}</p>
+    <p><a href="{% url 'news' %}?page={{ pn }}">Назад</a></p>
+{% endblock %}

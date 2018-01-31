@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% block title %}Удаление статьи :: {{ blog.title }}{% endblock %}
+{% block main %}
+	<h2>Удаление статьи</h2>
+	<h4>{{ blog.title }}</h4>
+	<p class="username">
+		{% if object.user.get_full_name %}:
+			<!--выводим реальные ФИО, разделенные пробелом-->
+			{{ object.user.get_full_name }}
+		{% else %}
+			<!--иначе имя, под которым зарегистрирован пользователь-->
+			{{ object.user.get_username }}
+		{% endif %}
+	</p>
+	<p class="posted">{{ object.posted|date:"j.m.Y H.i.s" }}</p>
+	<form action="" method="post">
+		{% csrf_token%}
+		<input type="submit" value="Удалить">
+	</form>
+	<p><a href="{% url 'index' %}?page={{ pn }}">Назад</a></p>
+{% endblock %}

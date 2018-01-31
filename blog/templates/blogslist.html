@@ -1,0 +1,11 @@
+{% extends "main.html" %}
+{% block main %}
+	<h2>Блоги пользователей</h2>
+    {% for object in object_list %}
+        <table>
+            <tr>
+                <td><a href="{% url 'post_list' id=object.user.id %}">{{ object.user }}</a></td>
+            </tr>
+        </table>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "main.html" %}
+
+{% block title %}Главная страница{% endblock %}
+{% block main %}
+    {% include "messages.html" %}
+    
+    {% if author %}<p><a href="{% url 'post_add' %}">Добавить статью</a></p>{% endif %}
+
+    {% if blog %}<h2>Блог пользователя: {{ blog }}</h2>
+        <ul class="hr">		
+            <form action="{% if is_subscribed == False %}{% url 'subcribe' id=blog.id %}{% else %}{% url 'unsubcribe' id=blog.id %}{% endif %}" method="post">
+                {% csrf_token %}
+                <div class="submit-button"><input type="submit" value="{% if is_subscribed == False %}Подписаться{% else %}Отписаться{% endif %}"></div>
+            </form>			
+        </ul>    			
+    {% endif %}
+
+    {% for post in posts %}
+        <div class="blog-article">
+            <!--Заголовок статьи-->
+            <h4><a href="{% url 'post_detail' pk=post.pk %}?page={{ posts.number }}">{{ post.title }}</a></h4>
+            <!--Имя пользователя-->
+            <p class="username">
+                {% if post.user.get_full_name %}:
+                    <!--выводим реальные ФИО, разделенные пробелом-->
+                    {{ post.user.get_full_name }}
+                {% else %}:
+                    <!--иначе имя, под которым зарегистрирован пользователь-->
+                    {{ post.user.get_username }}
+                {% endif %}
+            </p>
+            <!--Описание статьи-->
+            <p>{{ post.description }}</p>
+            <!--Дата публикации статьи-->
+            <p class="posted">{{ post.posted|date:"j.m.Y H.i.s" }}</p>
+		    {% if user == post.user or user.is_superuser %}
+                <p class="buttons">
+                    <!--Кнопка изменения статьи-->
+                    <a href="{% url 'post_edit' pk=post.pk %}?page={{ posts.number }}">Изменить</a>
+                    <!--Кнопка удаления статьи-->
+                    <!--page_obj - текущая страница-->
+                    <a href="{% url 'post_delete' pk=post.pk %}?page={{ posts.number }}">Удалить</a>
+                </p>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <div id="pagination">
+        <span>
+            {% if posts.has_previous %}
+                <a href="?page={{ posts.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+            <span id="num-pages">
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+            </span>
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">Следующая</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

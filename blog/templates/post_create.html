@@ -1,0 +1,15 @@
+{% extends "main.html" %}
+{% load staticfiles %}
+{% block title %}Добавление статьи{% endblock %}
+
+{% block main %}
+	<h2>Добавление статьи</h2>
+	<div class="form">
+		<form action="" method="post">
+			{% include "form.html" %}
+			<div class="submit-button"><input type="submit" value="Добавить"></div>
+		</form>
+	</div>
+
+	<p><a href="{% url 'index' %}">Назад</a></p>
+{% endblock %}

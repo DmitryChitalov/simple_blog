@@ -1,0 +1,23 @@
+{% load staticfiles %}
+{% block additional_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}"/>
+{% endblock %} 
+{% block content %}
+    <div id="header">
+        <h1>Простейший блог</h1>
+    </div>
+    <div id="leftmenu">
+        <ul>
+            {% url "index" as page_url %}
+            <li><a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>Мой блог</a></li>
+			{% url "blog_list" as page_url %}
+            <li><a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>Блоги</a></li>
+            {% url "news" as page_url %}
+            <li><a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>Лента новостей</a></li>
+        </ul>
+    </div>
+    <div id="main">
+        {% block main %}
+        {% endblock %}
+    </div>
+{% endblock %}

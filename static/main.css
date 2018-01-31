@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+
+ul.hr {
+    margin: 0; /* Обнуляем значение отступов */
+    padding: 4px; /* Значение полей */
+}
+
+ul.hr li {
+    display:inline-block; /* Отображать как строчный элемент */
+    margin-right: 5px; /* Отступ слева */
+}
+

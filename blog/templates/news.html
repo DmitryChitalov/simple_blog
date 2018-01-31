@@ -1,0 +1,34 @@
+{% extends "main.html" %}
+
+{% block title %}Главная страница{% endblock %}
+{% block main %} 
+    {% for newsfeed in newsfeeds %}
+        <div class="blog-article">
+            <!--Заголовок статьи-->
+            <h4><a href="{% url 'post_detail' pk=newsfeed.post.id %}?page={{ newsfeeds.number }}">{{ newsfeed.post.title }}{% if newsfeed.is_read == True %} (Прочитано){% endif %}</a></h4>
+            <!--pk=object.post.id-->
+            <!--Имя пользователя-->
+            <p class="username">
+                {{ newsfeed.post.user }}
+            </p>
+            <!--Описание статьи-->
+            <p>{{ newsfeed.description }}</p>
+            <!--Дата публикации статьи-->
+            <p class="posted">{{ newsfeed.posted|date:"j.m.Y H.i.s" }}</p>
+        </div>
+    {% endfor %}
+
+    <div id="pagination">
+        <span>
+            {% if newsfeeds.has_previous %}
+                <a href="?page={{ newsfeeds.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+            <span id="num-pages">
+                Page {{ newsfeeds.number }} of {{ newsfeeds.paginator.num_pages }}.
+            </span>
+            {% if newsfeeds.has_next %}
+                <a href="?page={{ newsfeeds.next_page_number }}">Следующая</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

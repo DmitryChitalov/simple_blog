@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+{% load staticfiles %}
+{% block title %}Правка статьи :: {{ blog.title }}{% endblock %}
+{% block main %}
+    <h2>Правка статьи</h2>
+    <div class="form">
+        <form action="" method="post">
+            {% include "form.html" %}
+            <div class="submit-button"><input type="submit" value="Изменить"></div>
+        </form>
+    </div>
+	<!--кнопка перехода обратно на список статей-->
+	<p><a href="{% url 'index' %}?page={{ pn }}">Назад</a></p>
+{% endblock %}
